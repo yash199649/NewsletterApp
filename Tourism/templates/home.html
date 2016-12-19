@@ -1,0 +1,93 @@
+ {%extends 'base.html'%}
+  {% load static %}
+ {% load crispy_forms_tags %}
+
+ {%block head_title%}Welcome | {{block.super}}{%endblock%}
+ {%block jumbotron%}
+ {%include 'javascript.html'%}
+
+{% if not request.user.is_authenticated %}     
+ <div class="jumbotron">
+ <div class="container">
+ <div class="row jumbo">
+ <div class="col-xs-6">
+        <h1>My Panda Newsletter</h1>
+        <p>Great news ! Panda numbers have increased by 16.8% in the last ten years. It shows that conservation efforts are working. But how can we be sure the numbers are right?</p>
+        <p>Lets work together to save this beautiful animal species.</p>
+        <p>Subscribe to our news letter to receive more updates</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="{% url 'registration_register' %}" role="button">Join Us &raquo;</a>
+        </p>
+      </div>
+      <div class="col-xs-6" >
+        <iframe width="560" height="350" src="https://www.youtube.com/embed/h3_2HCCP-VU" frameborder="0" allowfullscreen></iframe>
+
+      </div>
+      </div>
+      </div>
+      </div>
+ {%endif%}
+ {%endblock%}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+<h1>You are logged in </h1>
+{%if queryset%}
+<h1>Welcome Staff</h1>
+<table class="table">
+{%for i in  queryset%}
+<tr><td>{{forloop.counter}}</td><td>{{i}}</td><td>{{i.full_name}}</td><td>{{i.timestamp|timesince}}</td></tr>
+{% if instance.full_name == "Panda sharma" %}
+<tr><td>Admin</td></tr>
+{%endif%}
+
+{%endfor%}
+</table>
+{%endif%}
+{%else%}     
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+
+
+</head>
+<body>
+
+<div class="row">
+	<div class="col-sm-4">
+		<h1>{{template_title}}</h1>
+    <br>
+		<form method="POST" action="/">{% csrf_token %}
+			{{form|crispy}}
+      <br>
+			<input class="btn btn-primary" type="submit" name="SignUp" value="Signup" />
+      
+		</form>
+	</div>
+  <div class="col-sm-4"> <br><br><br><p  align="center" style="font-weight: bold;font-size: 20px">Contact Us At <br><br> <span><i class="fa fa-mobile" aria-hidden="true"></i></span>&nbsp  8085029528<br><br> 
+<span class="fa-stack fa-lg fa-4x">
+<i class="fa fa-handshake-o  fa-stack-1x" aria-hidden="true"></i>
+<i class="fa fa-circle-o-notch  fa-spin  fa-fw fa-stack-2x"></i>
+  
+</span>
+
+  </p>
+  
+   </div>
+   <div class="col-sm-4"><br>
+     <p  align="center" style="font-weight: bold;font-size: 20px">Address: <br><br></p>
+     <p align="center" style="font-weight: bold;"><span><i class="fa fa-address-card" aria-hidden="true"></i></span> AIIMS Raipur Hospital Building <br> Great Eastern Rd, Tatibandh, Raipur,Chhattisgarh 492099</p><br>
+<iframe id="map" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyBL_CXFDFal1X-FwrWqiODYKXbNxwXDz_s &q=AIIMS+Raipur+Hospital+Building+Tatibandh+Raipur" width="100%" height="160px">
+ </iframe>
+
+
+   </div>
+</div>
+</body>
+</html>
+{%endif %}
+
+{%endblock%}

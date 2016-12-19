@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+
+{%include 'head_css.html'%}
+{%include 'navbar.html'%}
+
+<div class="container">
+
+<div class="row">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+<h1 align="center">Contact Us</h1>
+<form method="POST" action="">{% csrf_token %}
+	{{form|crispy}}
+	<input class="btn btn-primary" type="submit" name="SignUp" value="submit" />
+</form>
+</div>
+</div>
+</div>
